@@ -1,14 +1,16 @@
+import copy
 import pandas as pd
-import xgboost as xgb
 
 from sklearn import metrics
 from sklearn import preprocessing
+import xgboost as xgb
 
 import config
 
-def run(fold):
-    # load the full training data with folds
-    df = pd.read_csv(config.TRAINING_FILE)
+def mean_target_encoding(data):
+
+    # make a copy of the dataframe
+    df = copy.deepcopy(data)
 
     # list of numerical columns
     num_cols = [
@@ -48,22 +50,46 @@ def run(fold):
             # transform all the data
             df.loc[:, col] = lbl.transform(df[col])
 
-    df_train = df[df.kfold != fold].reset_index(drop=True)
+    # a list to store 5 validation dataframes
+    encoded_dfs = []
 
+    for fold in range(5):
+        df_train = df[df.kfold != fold].reset_index(drop=True)
+        df_valid = df[df.kfold == fold].reset_index(drop=True)
+
+        for column in features:
+            # create dict of category: mean target
+            mapping_dict = dict(
+                df_train.groupby(column)["income"].mean()
+            )
+            # column_enc is the new column we have with mean encoding
+            df_valid.loc[
+                :, column + "_enc"
+            ] = df_valid[column].map(mapping_dict)
+        # append to our list of encoded validation dataframes
+        encoded_dfs.append(df_valid)
+    encoded_df = pd.concat(encoded_dfs, axis=0)
+    return encoded_df
+
+
+def run(df, fold):
+    df_train = df[df.kfold != fold].reset_index(drop=True)
     df_valid = df[df.kfold == fold].reset_index(drop=True)
 
-    x_train = df_train[features].values
+    features = [
+        f for f in df.columns if f not in ("kfold", "income")
+    ]
 
+    x_train = df_train[features].values
     x_valid = df_valid[features].values
 
     model = xgb.XGBClassifier(
-        n_jobs=-1
+        n_jobs=-1,
+        max_depth=7
     )
 
     model.fit(x_train, df_train.income.values)
-
     valid_preds = model.predict_proba(x_valid)[:,1]
-
     auc = metrics.roc_auc_score(df_valid.income.values, valid_preds)
 
     # print auc
@@ -71,5 +97,9 @@ def run(fold):
 
 
 if __name__ == "__main__":
+    # read data
+    df = pd.read_csv(config.TRAINING_FILE)
+    df = mean_target_encoding(df)
+
     for fold_ in range(5):
-        run(fold_)
+        run(df, fold_)

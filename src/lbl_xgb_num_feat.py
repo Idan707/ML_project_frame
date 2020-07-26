@@ -1,10 +1,28 @@
+import itertools
 import pandas as pd
 import xgboost as xgb
 
 from sklearn import metrics
-from sklearn import preprocessing
+from sklearn import preprocessing 
 
 import config
+
+def feature_engineering(df, cat_cols):
+    """
+    This function is used for feature engineering
+    :param df: the pandas dataframe with train/test data
+    :param cat_cols: listof categorical columns
+    :return: dataframe with new features
+    """
+    # this will create all 2-combinations of values
+    # in this list
+    combi = list(itertools.combinations(cat_cols, 2))
+    for c1, c2 in combi:
+        df.loc[
+            :,
+            c1 + "_" + c2
+        ] = df[c1].astype(str) + "_" + df[c2].astype(str)
+    return df
 
 def run(fold):
     # load the full training data with folds
@@ -25,6 +43,15 @@ def run(fold):
         ">50K" : 1
     }
     df.loc[:, "income"] = df.income.map(target_mapping)
+
+    # list of categorical columns for feature engineering
+    cat_cols = [
+        c for c in df.columns if c not in num_cols
+        and c not in ("kfold", "income")
+    ]
+
+    # add new features
+    df = feature_engineering(df, cat_cols)
 
     features = [
         f for f in df.columns if f not in ("kfold", "income")
