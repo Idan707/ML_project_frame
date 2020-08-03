@@ -45,7 +45,7 @@ def sentence_to_vec(s, embedding_dict, stop_words, tokenizer):
     # remove stop words tokens
     words = [w for w in words if not w in stop_words]
 
-    # keep only alpha-numric tokens
+    # keep only alpha-numeric tokens
     words = [w for w in words if w.isalpha()]
 
     # init empty list to store embeddings
