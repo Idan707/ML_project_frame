@@ -10,7 +10,7 @@ import model_dispatcher
 
 def run(fold, model):
     # read the training data with folds
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.TRAINING_FILE_FOLDS)
 
     # training data is where kfold is not equal to provieded fold 
     # also, note that we reset the index

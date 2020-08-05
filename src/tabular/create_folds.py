@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+import os
 from sklearn import model_selection
 
 import config
@@ -15,7 +17,7 @@ if __name__ == "__main__":
     df = df.sample(frac=1).reset_index(drop=True)
 
     # fetch labels
-    y = df.target.values
+    y = df.label.values
 
     # initiate the kfold class from model_selection module
     kf = model_selection.StratifiedKFold(n_splits=5)
@@ -25,4 +27,6 @@ if __name__ == "__main__":
         df.loc[v_, "kfold"] = feature
 
     # save the new csv with kfold column
-    df.to_csv("../input/cat_train_folds.csv", index=False)
+    HOME_DIR = os.path.expanduser("~")
+    SAVE_TO = os.path.join(HOME_DIR, "git", "ML_project_frame", "input", "mnist_train_folds.csv")
+    df.to_csv(SAVE_TO, index=False)
