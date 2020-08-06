@@ -8,7 +8,7 @@ import config
 if __name__ == "__main__":
 
     # read training data
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.CAT_TRAINING_FILE)
 
     # we create a new column called kfold and fill it with -1
     df["kfold"] = -1
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     df = df.sample(frac=1).reset_index(drop=True)
 
     # fetch labels
-    y = df.label.values
+    y = df.target.values
 
     # initiate the kfold class from model_selection module
     kf = model_selection.StratifiedKFold(n_splits=5)
@@ -29,5 +29,5 @@ if __name__ == "__main__":
     # save the new csv with kfold column
     HOME_DIR = os.path.expanduser("~")
     #SAVE_TO = os.path.join(HOME_DIR, "git", "ML_project_frame", "input", "mnist_train_folds.csv")
-    SAVE_TO = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "input", "mnist_train_folds.csv")
+    SAVE_TO = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "input", "cat_train_folds.csv")
     df.to_csv(SAVE_TO, index=False)

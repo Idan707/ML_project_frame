@@ -98,7 +98,7 @@ def run(df, fold):
 
 if __name__ == "__main__":
     # read data
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.CAT_TRAINING_FILE)
     df = mean_target_encoding(df)
 
     for fold_ in range(5):
