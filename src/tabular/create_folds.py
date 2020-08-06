@@ -28,5 +28,6 @@ if __name__ == "__main__":
 
     # save the new csv with kfold column
     HOME_DIR = os.path.expanduser("~")
-    SAVE_TO = os.path.join(HOME_DIR, "git", "ML_project_frame", "input", "mnist_train_folds.csv")
+    #SAVE_TO = os.path.join(HOME_DIR, "git", "ML_project_frame", "input", "mnist_train_folds.csv")
+    SAVE_TO = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "input", "mnist_train_folds.csv")
     df.to_csv(SAVE_TO, index=False)
