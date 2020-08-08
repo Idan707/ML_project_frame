@@ -6,11 +6,11 @@ from sklearn import ensemble
 from sklearn import metrics
 from sklearn import preprocessing
 
-from create_folds import feature
+import config
 
 def run(fold):
     # load the full training data with folds
-    df = pd.read_csv("../input/cat_train_folds.csv")
+    df = pd.read_csv(config.CAT_TRAINING_FILE_FOLDS)
 
     # all columns are features except id, target and kfold columns
     features = [

@@ -18,9 +18,12 @@ TESTING_FILE = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame",
 MODEL_OUTPUT = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "models")
 
 # cat data
-CAT_TRAINING_FILE = os.path.join(HOME_DIR, "Documents","GitHub", "ML_project_frame", "input", "cat_train.csv")
+#CAT_TRAINING_FILE = os.path.join(HOME_DIR, "Documents","GitHub", "ML_project_frame", "input", "cat_train.csv")
+CAT_TRAINING_FILE = os.path.join(HOME_DIR, "ML_project_frame", "input", "cat_train.csv")
 
-CAT_TRAINING_FILE_FOLDS = os.path.join(HOME_DIR, "Documents","GitHub", "ML_project_frame", "input", "cat_train_folds.csv")
+#CAT_TRAINING_FILE_FOLDS = os.path.join(HOME_DIR, "Documents","GitHub", "ML_project_frame", "input", "cat_train_folds.csv")
+CAT_TRAINING_FILE_FOLDS = os.path.join(HOME_DIR, "ML_project_frame", "input", "cat_train_folds.csv")
 
-CAT_TESTING_FILE = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "input", "cat_test.csv")
+#CAT_TESTING_FILE = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "input", "cat_test.csv")
+CAT_TESTING_FILE = os.path.join(HOME_DIR, "ML_project_frame", "input", "cat_test.csv")
 
