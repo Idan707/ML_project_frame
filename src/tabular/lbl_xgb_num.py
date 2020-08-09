@@ -8,7 +8,7 @@ import config
 
 def run(fold):
     # load the full training data with folds
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.CEN_TRAINING_FILE_FOLDS)
 
     # list of numerical columns
     num_cols = [
@@ -24,10 +24,10 @@ def run(fold):
         "<=50K" : 0,
         ">50K" : 1
     }
-    df.loc[:, "income"] = df.income.map(target_mapping)
+    df.loc[:, "Income"] = df.Income.map(target_mapping)
 
     features = [
-        f for f in df.columns if f not in ("kfold", "income")
+        f for f in df.columns if f not in ("kfold", "Income")
     ]
 
     # fill all NaN values with NONE
@@ -60,11 +60,11 @@ def run(fold):
         n_jobs=-1
     )
 
-    model.fit(x_train, df_train.income.values)
+    model.fit(x_train, df_train.Income.values)
 
     valid_preds = model.predict_proba(x_valid)[:,1]
 
-    auc = metrics.roc_auc_score(df_valid.income.values, valid_preds)
+    auc = metrics.roc_auc_score(df_valid.Income.values, valid_preds)
 
     # print auc
     print(f"Fold = {fold}, AUC = {auc}")

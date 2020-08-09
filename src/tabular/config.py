@@ -27,3 +27,9 @@ CAT_TRAINING_FILE_FOLDS = os.path.join(HOME_DIR, "ML_project_frame", "input", "c
 #CAT_TESTING_FILE = os.path.join(HOME_DIR, "Documents", "GitHub", "ML_project_frame", "input", "cat_test.csv")
 CAT_TESTING_FILE = os.path.join(HOME_DIR, "ML_project_frame", "input", "cat_test.csv")
 
+# census data
+#CAT_TRAINING_FILE = os.path.join(HOME_DIR, "Documents","GitHub", "ML_project_frame", "input", "cat_train.csv")
+CEN_TRAINING_FILE = os.path.join(HOME_DIR, "ML_project_frame", "input", "CensusData.csv")
+
+#CAT_TRAINING_FILE_FOLDS = os.path.join(HOME_DIR, "Documents","GitHub", "ML_project_frame", "input", "cat_train_folds.csv")
+CEN_TRAINING_FILE_FOLDS = os.path.join(HOME_DIR, "ML_project_frame", "input", "cen_train_folds.csv")
