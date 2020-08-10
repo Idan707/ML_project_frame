@@ -27,7 +27,8 @@ def quadratic_weighted_kappa(y_true, y_pred):
 
 if __name__ == "__main__":
 
-    train = pd.read_csv(config.TRAINING_FILE)
+    train = pd.read_csv(config.DEP_TRAINING_FILE)
+    test = pd.read_csv(config.DEP_TESTING_FILE)
 
     idx = test.id.values.astype(int)
     train = train.drop('id', axis=1)
@@ -101,4 +102,4 @@ if __name__ == "__main__":
     best_model = model.best_estimator_
 
     best_model.fit(X, y)
-    preds = best_model.predict(...)
+    preds = best_model.predict(X_test)

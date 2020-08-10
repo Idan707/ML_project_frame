@@ -15,11 +15,13 @@ def run(fold):
         f for f in df.columns if f not in ("id", "target", "kfold")
     ]
 
+    le = preprocessing.LabelEncoder()
     # fill all NaN values with NONE
     # note that I am converting all columns to "strings"
     # it doesn't matter because all are categories
     for col in features:
         df.loc[:, col] = df[col].astype(str).fillna("NONE")
+        df.loc[:, col] = le.fit_transform(df[col].astype(str))
 
     # get training data using folds
     df_train = df[df.kfold != fold].reset_index(drop=True)

@@ -23,13 +23,13 @@ def mean_target_encoding(data):
 
     # map targets to 0s and 1s
     target_mapping = {
-        "<=50K" : 0,
-        ">50K" : 1
+        " <=50K" : 0,
+        " >50K" : 1
     }
-    df.loc[:, "income"] = df.income.map(target_mapping)
+    df.loc[:, "Income"] = df.Income.map(target_mapping)
 
     features = [
-        f for f in df.columns if f not in ("kfold", "income")
+        f for f in df.columns if f not in ("kfold", "Income")
     ]
 
     # fill all NaN values with NONE
@@ -60,7 +60,7 @@ def mean_target_encoding(data):
         for column in features:
             # create dict of category: mean target
             mapping_dict = dict(
-                df_train.groupby(column)["income"].mean()
+                df_train.groupby(column)["Income"].mean()
             )
             # column_enc is the new column we have with mean encoding
             df_valid.loc[
@@ -77,7 +77,7 @@ def run(df, fold):
     df_valid = df[df.kfold == fold].reset_index(drop=True)
 
     features = [
-        f for f in df.columns if f not in ("kfold", "income")
+        f for f in df.columns if f not in ("kfold", "Income")
     ]
 
     x_train = df_train[features].values
@@ -88,9 +88,9 @@ def run(df, fold):
         max_depth=7
     )
 
-    model.fit(x_train, df_train.income.values)
+    model.fit(x_train, df_train.Income.values)
     valid_preds = model.predict_proba(x_valid)[:,1]
-    auc = metrics.roc_auc_score(df_valid.income.values, valid_preds)
+    auc = metrics.roc_auc_score(df_valid.Income.values, valid_preds)
 
     # print auc
     print(f"Fold = {fold}, AUC = {auc}")
@@ -98,7 +98,7 @@ def run(df, fold):
 
 if __name__ == "__main__":
     # read data
-    df = pd.read_csv(config.CAT_TRAINING_FILE)
+    df = pd.read_csv(config.CEN_TRAINING_FILE_FOLDS)
     df = mean_target_encoding(df)
 
     for fold_ in range(5):

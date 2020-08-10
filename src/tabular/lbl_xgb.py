@@ -8,15 +8,15 @@ import config
 
 def run(fold):
     # load the full trianing data with folds
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.CEN_TRAINING_FILE_FOLDS)
 
     # list of numrical columns
     num_cols = [
-        "fnlwget",
-        "age",
-        "capital.gain",
-        "capital.loss",
-        "hours.per.week"
+        "fnlwgt",
+        "Age",
+        "capital-gain",
+        "capital-loss",
+        "hours-per-week"
     ]
 
     # drop numrical columns
@@ -24,14 +24,14 @@ def run(fold):
 
     # map targets to 0s and 1s
     target_mapping = {
-        "<=50K": 0,
-        ">50K": 1
+        " <=50K": 0,
+        " >50K": 1
     }
-    df.loc[:, "income"] = df.income.map(target_mapping)
+    df.loc[:, "Income"] = df.Income.map(target_mapping)
 
     # all columns are features except kfold & income columns
     features = [
-        f for f in df.columns if f not in ("kfold", "income")
+        f for f in df.columns if f not in ("kfold", "Income")
     ]
 
     # fill all NaN values with NONE
@@ -50,7 +50,7 @@ def run(fold):
         lbl.fit(df[col])
 
         # transform all the data
-        df[:, col] = lbl.transform(df[col])
+        df.loc[:, col] = lbl.transform(df[col])
 
     # get training data using folds
     df_train = df[df.kfold != fold].reset_index(drop=True)
@@ -70,7 +70,7 @@ def run(fold):
     )
 
     # fit model on training data (ohe)
-    model.fit(x_train, df_train.income.values)
+    model.fit(x_train, df_train.Income.values)
 
     # predict on validation data
     # we need the probability values as we are calculating AUC
@@ -78,13 +78,13 @@ def run(fold):
     valid_preds = model.predict_proba(x_valid)[:, 1]
 
     # get roc auc score
-    auc = metrics.roc_auc_score(df_valid.income.values, valid_preds)
+    auc = metrics.roc_auc_score(df_valid.Income.values, valid_preds)
 
     # print auc
     print(f"Fold = {fold}, AUC = {auc}")
 
 
 if __name__ == "__main__":
-    for fold in range(5):
+    for fold_ in range(5):
         run(fold_)
 

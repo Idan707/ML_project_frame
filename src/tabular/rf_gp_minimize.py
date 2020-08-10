@@ -55,7 +55,7 @@ def optimize(params, param_names, x, y):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.MOB_TRAIN_FILE_FOLDS)
 
     X = df.drop("price_range", axis=1).values
     y = df.price_range.values

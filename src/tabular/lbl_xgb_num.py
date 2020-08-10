@@ -13,16 +13,16 @@ def run(fold):
     # list of numerical columns
     num_cols = [
         "fnlwgt",
-        "age",
-        "capital.gain"
-        "capital.loss"
-        "hours.per.week"
+        "Age",
+        "capital-gain"
+        "capital-loss"
+        "hours-per-week"
     ]
 
     # map targets to 0s and 1s
     target_mapping = {
-        "<=50K" : 0,
-        ">50K" : 1
+        " <=50K" : 0,
+        " >50K" : 1
     }
     df.loc[:, "Income"] = df.Income.map(target_mapping)
 
