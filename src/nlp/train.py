@@ -1,14 +1,11 @@
 import io
-from nlp.ctv_logres_nb import accuracy
 import torch
 
 import numpy as np
 import pandas as pd
 
 import tensorflow as tf
-
 from sklearn import metrics
-from nlp.fasttext import embeddings, review
 
 import nlp_config
 import dataset
@@ -23,7 +20,7 @@ def load_vectors(fname):
         newline='\n',
         errors='ignore'
     )
-    n, d = map(int, fin.readline().split)
+    n, d = map(int, fin.readline().split())
     data = {}
     for line in fin:
         tokens = line.rstrip().split(' ')
@@ -69,17 +66,17 @@ def run(df, fold):
     # convert training data to sequences
     # for exmple: "bad movie" get converted to
     # [24, 27] where 24 is the index for bad and 27 is the index for movie
-    xtrain = tokenizer.text_to_sequences(train_df.review.values)
-    xtest = tokenizer.text_to_sequences(valid_df.review.values)
+    xtrain = tokenizer.texts_to_sequences(train_df.review.values)
+    xtest = tokenizer.texts_to_sequences(valid_df.review.values)
 
     # zero pad the training sequences given the maximum length
     # this padding is done on left hend side
     # if sequence is > MAX_LEN, it is truncated on left hend side too
-    xtrain = tf.keras.preprocessing.pad_sequences(
+    xtrain = tf.keras.preprocessing.sequence.pad_sequences(
         xtrain, maxlen=nlp_config.MAX_LEN
     )
 
-    xtest = tf.keras.preprocessing.pad_sequences(
+    xtest = tf.keras.preprocessing.sequence.pad_sequences(
         xtest, maxlen=nlp_config.MAX_LEN
     )
 
@@ -109,7 +106,7 @@ def run(df, fold):
     )
 
     print("Loading embeddings")
-    embedding_dict = load_vectors("../input/crawl-300d-2M.vec")
+    embedding_dict = load_vectors("./input/crawl-300d-2M.vec")
     embedding_matrix = create_embedding_matrix(
         tokenizer.word_index, embedding_dict
     )
@@ -152,7 +149,7 @@ def run(df, fold):
             break
 
 if __name__ == "__main__":
-    df = pd.read_csv(nlp_config.TRAINING_FILE)
+    df = pd.read_csv(nlp_config.TRAINING_FILE_FOLDS)
 
     run(df, fold=0)
     run(df, fold=1)

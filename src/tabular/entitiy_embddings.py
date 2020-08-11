@@ -4,6 +4,7 @@ import joblib
 from numpy.core.fromnumeric import shape
 import pandas as pd
 import numpy as np
+import scipy
 from sklearn import metrics, preprocessing
 from sklearn.utils import validation
 from tensorflow.keras import layers
@@ -31,12 +32,11 @@ def create_model(data, catcols):
         num_unique_values = int(data[c].nunique())
         embed_dim = int(min(np.ceil((num_unique_values)/2), 50))
 
-        inp = layers.inputs(shape=(1,))
+        inp = layers.Input(shape=(1,))
 
         # add embedding layer to raw input
         # embedding size is always 1 more than unique values in input
-        out  = layers.Embedding(num_unique_values + 1, embed_dim, name = c
-        )(inp)
+        out  = layers.Embedding(num_unique_values + 1, embed_dim, name = c)(inp)
 
         # 1-d spatial dropout is the standard for emebedding layers
         # you can use it in NLP task too
@@ -44,7 +44,7 @@ def create_model(data, catcols):
 
         # reshape the input to the dimension of embedding
         # this becomes our output layer for current feature
-        out = layers.Reshpe(target_shap=(embed_dim, ))(out)
+        out = layers.Reshape(target_shape=(embed_dim, ))(out)
 
         # add input to input list
         inputs.append(inp)
@@ -53,35 +53,35 @@ def create_model(data, catcols):
         outputs.append(out)
 
         # concatenate all output layers
-        x = layers.Concatenate()(outputs)
+    x = layers.Concatenate()(outputs)
 
-        # add a batchnorm layers
-        # from now on you can try different architechtures
-        # if we have a numrical features, you shold add here
-        x = layers.BatchNormalization()(x)
+    # add a batchnorm layers
+    # from now on you can try different architechtures
+    # if we have a numrical features, you shold add here
+    x = layers.BatchNormalization()(x)
 
-        x = layers.Dense(300, activation="relu")(x)
-        x = layers.Dropout(0.3)(x)
-        x = layers.BatchNormalization()(x)
+    x = layers.Dense(300, activation="relu")(x)
+    x = layers.Dropout(0.3)(x)
+    x = layers.BatchNormalization()(x)
 
-        x = layers.Dense(300, activation="relu")(x)
-        x = layers.Dropout(0.3)(x)
-        x = layers.BatchNormalization()(x)
+    x = layers.Dense(300, activation="relu")(x)
+    x = layers.Dropout(0.3)(x)
+    x = layers.BatchNormalization()(x)
 
-        # using softmax and treating it as a two class problem
-        y = layers.Dense(2, activation="softmax")(x)
+    # using softmax and treating it as a two class problem
+    y = layers.Dense(2, activation="softmax")(x)
 
-        # create final model
-        model = Model(inputs=inputs, outputs=y)
+    # create final model
+    model = Model(inputs=inputs, outputs=y)
 
-        # complie the model
-        model.complie(loss='binary_crossentropy', optimizer='adam')
-        return model
+    # complie the model
+    model.compile(loss='binary_crossentropy', optimizer='adam')
+    return model
 
 
 def run(fold):
     # load training data with folds
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(config.CAT_TRAINING_FILE_FOLDS)
 
     features = [
         f for f in df.columns if f not in ("id", "target", "kfold")

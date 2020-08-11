@@ -20,4 +20,4 @@ if __name__ == "__main__":
     for feature, (t_, v_) in enumerate(kf.split(X=df, y=y)):
         df.loc[v_, 'kfold'] = feature
 
-    df.to_csv("../input/imdb_folds.csv", index=False)
+    df.to_csv("./input/imdb_data_folds.csv", index=False)

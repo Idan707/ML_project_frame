@@ -7,10 +7,10 @@ from sklearn import metrics
 from sklearn import model_selection
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-import config
+import nlp_config
 
 if __name__ == "__main__":
-    df = pd.read_csv(config.TRAINING_FILE)
+    df = pd.read_csv(nlp_config.TRAINING_FILE)
 
     # map positive to 1 and negative to 0
     df.sentiment = df.sentiment.apply(

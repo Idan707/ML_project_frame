@@ -20,7 +20,7 @@ def load_vectors(fname):
         newline='\n',
         errors='ignore'
     )
-    n, d = map(int, fin.readline().split)
+    n, d = map(int, fin.readline().split())
     data = {}
     for line in fin:
         tokens = line.rstrip().split(' ')
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     # load embedding into memory
     print("Loading embeddings")
-    embeddings = load_vectors("../input/crawl-300d-2M.vec")
+    embeddings = load_vectors("./input/crawl-300d-2M.vec")
 
     # create sentence embeddings
     print("Creating sentence vectors")

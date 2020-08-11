@@ -7,8 +7,6 @@ from sklearn import decomposition
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 import nlp_config
-from tabular.create_folds import feature
-
 
 def clean_text(s):
     """
@@ -30,7 +28,7 @@ def clean_text(s):
     return s
 
 if __name__ == "__main__":
-    corpus = pd.read_csv(nlp_config.TRANING_FILE)
+    corpus = pd.read_csv(nlp_config.TRAINING_FILE)
     corpus.loc[:, "review"] = corpus.review.apply(clean_text)
     corpus = corpus.review.values
 
