@@ -63,7 +63,7 @@ class BERTDataset:
         ids = inputs["input_ids"]
         # mask is 1 where we have input
         # and 0 where we have padding
-        mask = input["attention_mask"]
+        mask = inputs["attention_mask"]
         # token type ids behave the same way as
         # mask in this specific case
         # in case of two sentences, this is 0

@@ -70,14 +70,7 @@ def train():
                 not any(nd in n for nd in no_decay)
             ],
             "weight_decay": 0.001,
-        },
-        {
-            "params": [
-                p for n, p in param_optimizer if
-                not any(nd in n for nd in no_decay)
-            ],
-            "weight_decay": 0.0,
-        },
+        }
     ]
 
     # calc number of training steps, used by the scheduler
@@ -85,7 +78,7 @@ def train():
         len(df_train) / nlp_config.TRAIN_BATCH_SIZE * nlp_config.EPOCHS
     )
 
-    optimizer = AdamW(optimizer_parameters, lr=3e-5)
+    optimizer = AdamW(optimizer_parameters)
 
     scheduler = get_linear_schedule_with_warmup(
         optimizer,

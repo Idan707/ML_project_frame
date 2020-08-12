@@ -79,7 +79,7 @@ def eval_fn(data_loader, model, device):
             ids = d["ids"]
             token_type_ids = d["token_type_ids"]
             mask = d["mask"]
-            targets = d["target"]
+            targets = d["targets"]
 
             ids = ids.to(device, dtype=torch.long)
             token_type_ids = token_type_ids.to(device, dtype=torch.long)
