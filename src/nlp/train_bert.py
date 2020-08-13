@@ -56,7 +56,7 @@ def train():
     )
 
     # init cuda device, use cpu if you dont have GPU
-    device = torch.device("cpu")
+    device = torch.device("cuda")
     model = BERTBaseUncased()
     model.to(device)
 

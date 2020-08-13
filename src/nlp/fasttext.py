@@ -7,7 +7,6 @@ from sklearn import linear_model
 from sklearn import metrics
 from sklearn import model_selection
 from sklearn.feature_extraction.text import TfidfVectorizer
-from yaml import tokens
 
 import nlp_config
 
