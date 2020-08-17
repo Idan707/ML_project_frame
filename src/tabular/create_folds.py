@@ -23,8 +23,8 @@ if __name__ == "__main__":
     kf = model_selection.StratifiedKFold(n_splits=5)
 
     # fill the new kfold column
-    for feature, (t_, v_) in enumerate(kf.split(X=df, y=y)):
-        df.loc[v_, "kfold"] = feature
+    for fold, (t_, v_) in enumerate(kf.split(X=df, y=y)):
+        df.loc[v_, "kfold"] = fold
 
     # save the new csv with kfold column
     HOME_DIR = os.path.dirname(os.path.realpath('__file__'))
