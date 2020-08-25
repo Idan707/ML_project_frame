@@ -56,7 +56,7 @@ def train():
     )
 
     # init cuda device, use cpu if you dont have GPU
-    device = torch.device("cuda")
+    device = torch.device(nlp_config.DEVICE)
     model = BERTBaseUncased()
     model.to(device)
 
@@ -66,11 +66,16 @@ def train():
     optimizer_parameters = [
         {
             "params": [
-                p for n, p in param_optimizer if
-                not any(nd in n for nd in no_decay)
+                p for n, p in param_optimizer if not any(nd in n for nd in no_decay)
             ],
             "weight_decay": 0.001,
-        }
+        },
+        {
+            "params": [
+                p for n, p in param_optimizer if any(nd in n for nd in no_decay)
+            ],
+            "weight_decay": 0.0,
+        },
     ]
 
     # calc number of training steps, used by the scheduler

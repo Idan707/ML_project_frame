@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import tqdm
 
 def loss_fn(outputs, targets):
     """
@@ -75,7 +76,7 @@ def eval_fn(data_loader, model, device):
 
     # disable gradient calculation
     with torch.no_grad():
-        for d in data_loader:
+        for bi, d in tqdm(enumerate(data_loader), total=len(data_loader)):
             ids = d["ids"]
             token_type_ids = d["token_type_ids"]
             mask = d["mask"]
