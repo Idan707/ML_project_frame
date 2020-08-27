@@ -30,3 +30,6 @@ MOB_TRAIN_FILE_FOLDS = os.path.join(HOME_DIR, ".\\input\\mobile_train_folds.csv"
 DEP_TRAINING_FILE = os.path.join(HOME_DIR, ".\\input\\dep_train.csv")
 DEP_TESTING_FILE = os.path.join(HOME_DIR, ".\\input\\dep_test.csv")
 
+### credit data ###
+CRED_FILE = os.path.join(HOME_DIR, ".\\input\\creditcardcsvpresent.csv")
+
